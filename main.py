@@ -1,7 +1,7 @@
+import os
 import csv
 import json
 import requests
-import os
 
 # Create must have directories
 os.mkdir('csv')
@@ -13,7 +13,6 @@ SHEET = 0
 
 # Base docs url
 url = f"https://docs.google.com/spreadsheets/d/{KEY}/gviz/tq?tqx=out:csv&sheet={SHEET}"
-
 request = requests.get(url)
 url_content = request.content
 
@@ -21,8 +20,8 @@ url_content = request.content
 def key(doc_language, file_name):
     csv_file = open('csv/data.csv', 'wb')
     csv_file.write(url_content)
-    result = {}
     words = ["zero", "one", "two", "few", "many", "other"]
+    result = {}
 
     with open('csv/data.csv', encoding='utf-8', newline='') as csv_file:
         reader = csv.DictReader(csv_file)
