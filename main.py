@@ -12,16 +12,17 @@ url_content = r.content
 
 csv_file = open('data.csv', 'wb')
 csv_file.write(url_content)
-result = {}
 match = {}
+result = {}
 words = ["zero", "one", "two", "few", "many", "other"]
 with open('data.csv', encoding='utf-8', newline='') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
         if str(row['KEY']).split('__')[-1] in words:
-            match = {str(row['KEY']).split('__')[1]: str(row['en'])}
-            result[str(row['KEY'])] = match
+            match[str(row['KEY']).split('__')[1]] = str(row['en'])
+            result[str(row['KEY']).split('__')[0]] = match
         else:
+            match = {}
             result[row['KEY']] = row['en']
 
 with open('data.json', 'w') as jsonFile:
