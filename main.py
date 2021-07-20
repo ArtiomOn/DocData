@@ -3,12 +3,13 @@ import json
 import requests
 import os
 
+# Create must have directories
+os.mkdir('csv')
+os.mkdir('json')
+
 # Docs data
 KEY = '1UVVP4o3e-6wOl4ucP9lPOQQqPoeQWesxlPmb1lK7Qyk'
 SHEET = 0
-
-os.mkdir('csv')
-os.mkdir('json')
 
 # Base docs url
 url = f"https://docs.google.com/spreadsheets/d/{KEY}/gviz/tq?tqx=out:csv&sheet={SHEET}"
@@ -17,8 +18,7 @@ request = requests.get(url)
 url_content = request.content
 
 
-
-def key(doc_key, file_name):
+def key(doc_language, file_name):
     csv_file = open('csv/data.csv', 'wb')
     csv_file.write(url_content)
     result = {}
@@ -28,11 +28,11 @@ def key(doc_key, file_name):
         reader = csv.DictReader(csv_file)
         for row in reader:
             if str(row['KEY']).split('__')[-1] in words:
-                match[str(row['KEY']).split('__')[1]] = str(row[f'{doc_key}'])
+                match[str(row['KEY']).split('__')[1]] = str(row[f'{doc_language}'])
                 result[str(row['KEY']).split('__')[0]] = match
             else:
                 match = {}
-                result[row['KEY']] = row[f'{doc_key}']
+                result[row['KEY']] = row[f'{doc_language}']
 
         with open(f'json/{file_name}', 'w', encoding='utf-8', newline='') as jsonFile:
             jsonFile.write(json.dumps(result, indent=0, ensure_ascii=False))
