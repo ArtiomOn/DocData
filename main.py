@@ -1,16 +1,21 @@
 import csv
 import json
 import requests
+import os
 
 # Docs data
 KEY = '1UVVP4o3e-6wOl4ucP9lPOQQqPoeQWesxlPmb1lK7Qyk'
 SHEET = 0
+
+os.mkdir('csv')
+os.mkdir('json')
 
 # Base docs url
 url = f"https://docs.google.com/spreadsheets/d/{KEY}/gviz/tq?tqx=out:csv&sheet={SHEET}"
 
 request = requests.get(url)
 url_content = request.content
+
 
 
 def key(doc_key, file_name):
