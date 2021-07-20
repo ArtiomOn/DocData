@@ -4,8 +4,8 @@ import json
 import requests
 
 # Create must have directories
-os.mkdir('csv')
-os.mkdir('json')
+os.makedirs('csv', exist_ok=True)
+os.makedirs('json', exist_ok=True)
 
 # Docs data
 KEY = '1UVVP4o3e-6wOl4ucP9lPOQQqPoeQWesxlPmb1lK7Qyk'
