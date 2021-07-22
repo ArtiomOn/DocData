@@ -34,7 +34,7 @@ def key(doc_language, file_name):
                 result[row['KEY']] = row[f'{doc_language}']
 
         with open(f'json/{file_name}', 'w', encoding='utf-8', newline='') as jsonFile:
-            jsonFile.write(json.dumps(result, indent=0, ensure_ascii=False))
+            jsonFile.write(json.dumps(result, indent=0, ensure_ascii=False).replace(r'\\n', r'\n'))
 
         csv_file.close()
 
