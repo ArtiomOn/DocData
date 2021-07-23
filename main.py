@@ -2,6 +2,7 @@ import os
 import csv
 import json
 import requests
+from datetime import datetime
 
 # Create must have directories
 os.makedirs('csv', exist_ok=True)
@@ -24,11 +25,18 @@ def key(doc_language, file_name):
     result = {}
 
     with open('csv/data.csv', encoding='utf-8', newline='') as csv_file:
+        start = datetime.now()
         reader = csv.DictReader(csv_file)
         for row in reader:
             if str(row['KEY']).split('__')[-1] in words:
-                match[str(row['KEY']).split('__')[1]] = str(row[f'{doc_language}'])
+                match[str(row['KEY']).split('__')[-1]] = str(row[f'{doc_language}'])
+                for rand in reader:
+                    if str(row['KEY']).split('__')[0] == str(rand['KEY']).split('__')[0]:
+                        match[str(rand['KEY']).split('__')[-1]] = str(rand[f'{doc_language}'])
+                    else:
+                        break
                 result[str(row['KEY']).split('__')[0]] = match
+                match = {}
             else:
                 match = {}
                 result[row['KEY']] = row[f'{doc_language}']
@@ -36,7 +44,9 @@ def key(doc_language, file_name):
         with open(f'json/{file_name}', 'w', encoding='utf-8', newline='') as jsonFile:
             jsonFile.write(json.dumps(result, indent=0, ensure_ascii=False).replace(r'\\n', r'\n'))
 
-        csv_file.close()
+    csv_file.close()
+    end_time = datetime.now() - start
+    print(f'File {file_name} ended in {end_time}')
 
 
 key('en', 'data_en.json')
