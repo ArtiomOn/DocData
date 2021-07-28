@@ -1,16 +1,20 @@
-import os
 import csv
 import json
 import requests
+import os
+import dotenv
 from datetime import datetime
 
 # Create must have directories
 os.makedirs('csv', exist_ok=True)
 os.makedirs('json', exist_ok=True)
 
+dotenv.load_dotenv()
+
 # Docs data
-KEY = '1UVVP4o3e-6wOl4ucP9lPOQQqPoeQWesxlPmb1lK7Qyk'
-SHEET = 0
+KEY = os.getenv('KEY')
+SHEET = os.getenv('SHEET')
+
 
 # Base docs url
 url = f"https://docs.google.com/spreadsheets/d/{KEY}/gviz/tq?tqx=out:csv&sheet={SHEET}"
@@ -37,6 +41,7 @@ def key(doc_language, file_name):
                         break
                 result[str(row['KEY']).split('__')[0]] = match
                 match = {}
+                result[rand['KEY']] = rand[f'{doc_language}']
             else:
                 match = {}
                 result[row['KEY']] = row[f'{doc_language}']
