@@ -2,19 +2,13 @@ import csv
 import json
 import requests
 import os
-import dotenv
+
 from datetime import datetime
+from secrets import KEY, SHEET
 
 # Create must have directories
 os.makedirs('csv', exist_ok=True)
 os.makedirs('json', exist_ok=True)
-
-dotenv.load_dotenv()
-
-# Docs data
-KEY = os.getenv('KEY')
-SHEET = os.getenv('SHEET')
-
 
 # Base docs url
 url = f"https://docs.google.com/spreadsheets/d/{KEY}/gviz/tq?tqx=out:csv&sheet={SHEET}"
